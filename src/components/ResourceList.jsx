@@ -1,31 +1,27 @@
 import React from 'react';
 import axios from 'axios';
 
-class ResourceList extends React.Component
-{
-    state = { resources: [] };
+const ResourceList = ({ resource }) => {
+    // initialise the resources "state"
+    // as empty array
+    const [resources, setResources] = React.useState([]);
 
-    async componentDidMount() {
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/${this.props.resource}`);
+    // useEffect combines componentDidMount
+    // and componentDidUpdate
+    // CHANGE TRIGGER: change to "resource" prop
+    React.useEffect(() => {
+        // hook syntax forces us to
+        // use this syntax when using
+        // async functions
+        // (or put the async function
+        // call somewhere else)
+        (async resource => {
+            const response = await axios.get(`https://jsonplaceholder.typicode.com/${resource}`);
+            setResources(response.data)
+        })(resource);
+    }, [resource]);
 
-        this.setState({ resources: response.data });
-    }
-
-    // ugly - only call componentDidUpdate IF
-    // the props inserted INTO the component change
-    // i.e. if RESOURCE changes from POSTS to TODOS
-    async componentDidUpdate(prevProps) {
-        if (prevProps.resource !== this.props.resource) {
-            const response = await axios.get(`https://jsonplaceholder.typicode.com/${this.props.resource}`);
-            this.setState({ resources: response.data });
-        }
-
-        return;
-    }
-
-    render() {
-        return <div>{this.state.resources.length}</div>;
-    }
+    return <div>{resources.length}</div>;
 }
 
 export default ResourceList;
