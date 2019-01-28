@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const ResourceList = ({ resource }) => {
+const useResources = (resource) => {
     // initialise the resources "state"
     // as empty array
     const [resources, setResources] = React.useState([]);
@@ -20,6 +20,13 @@ const ResourceList = ({ resource }) => {
             setResources(response.data)
         })(resource);
     }, [resource]);
+
+    return resources;
+}
+
+const ResourceList = ({ resource }) => {
+
+    const resources = useResources(resource);
 
     return (
         <ul>{resources.map(record => <li key={record.id}>{record.title}</li>)}</ul>
