@@ -1,5 +1,6 @@
 import React from 'react';
 import ResourceList from './ResourceList';
+import UserList from './UserList';
 
 const App = () => {
     // Destructure the useState array
@@ -8,6 +9,7 @@ const App = () => {
 
     return (
         <div>
+            <UserList />
             <div>
                 <button onClick={() => setResource('posts')}>
                     Posts
